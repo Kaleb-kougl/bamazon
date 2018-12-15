@@ -127,21 +127,25 @@ function getWhatToAdd() {
       }
     ])
     .then(answers => {
-      console.log(answers);
+      let numberRegex = /[^0-9]/g;
+      let notAnInt = numberRegex.test(answers["amount"]);
+      if (notAnInt === true){
+        console.log('You suck! Type a integer!');
+      } else {
+        console.log('add more');
+        addMoreInventory(answers.input, parseInt(answers.amount));
+      }
     });
   })
+}
+
+function addMoreInventory(id, amount) {
+  connection.query(`UPDATE products SET stock_quantity = stock_quantity + ${amount} WHERE item_id = ${id}`, function(err, res) {
+    if (err) throw err;
+    console.log(res);
+    console.log('Success!');
+  });
   // MAKE SURE TO PUT THIS AT THE END
   connection.end();
 }
-
-function addMoreInventory() {
-  // UPDATE products SET
-        
-  // THIS THROWS AN ERROR
-  // connection.query("SELECT * FROM products", function(err, res) {
-  //   if (err) throw err;
-  //   console.log(this.res);
-  // });
-}
-// If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
