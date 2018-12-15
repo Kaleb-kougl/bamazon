@@ -60,7 +60,7 @@ function afterConnection() {
       getWhatToAdd();
     } else if (answers.input === 'new') {
       console.log('new!');
-      addNewProduct();
+      promptNewProductInfo();
     } else {
       console.log("IDK what you did but you did something wrong.");
     }
@@ -150,17 +150,17 @@ function addMoreInventory(id, amount) {
   connection.end();
 }
 
-function addNewProduct() {
+function promptNewProductInfo() {
   inquirer
   .prompt([
     {
     "type": "input",
-    "name": "product_name",
+    "name": "p_name",
     "message": "What is the name of the product?",
     },
     {
       "type": "input",
-      "name": "department_name",
+      "name": "d_name",
       "message": "What department should it be located within?",
     },
     {
@@ -186,9 +186,21 @@ function addNewProduct() {
     } else if (notADecimal === true){
       console.log("You suck! Type a number for price without a unit!");
     } else {
-      console.log('something!');
+      addNewProduct(answers);
+      // console.log(answers);
     }
   })
+}
+
+function addNewProduct(item) {
+  connection.query(
+    `INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES(?, ?, ?, ?)`, 
+    [item.p_name, item.d_name, item.price, item.stock], 
+    function(err, res) {
+      if (err) throw err;
+      console.log(res);
+      console.log('Success!');
+  });
+
   connection.end();
 }
-// If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
