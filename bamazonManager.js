@@ -57,7 +57,7 @@ function afterConnection() {
       showLowInventory();
     } else if (answers.input === 'inventory'){
       console.log('inventory!');
-      addMoreInventory();
+      getWhatToAdd();
     } else if (answers.input === 'new') {
       console.log('new!');
     } else {
@@ -101,7 +101,7 @@ function showLowInventory() {
   connection.end();
 }
 
-function addMoreInventory() {
+function getWhatToAdd() {
   console.log('here!')
   connection.query("SELECT * FROM products", function(err, res) {
     let choicesArray = res.map(x => {
@@ -120,22 +120,28 @@ function addMoreInventory() {
         "message": "Select the item to which you are adding more inventory",
         "choices": choicesArray
       },
-    //   {
-    //     "type": "input",
-    //     "name": "amount",
-    //     "message": "How many would you like to add?"
-    //   }
+      {
+        "type": "input",
+        "name": "amount",
+        "message": "How many would you like to add?"
+      }
     ])
     .then(answers => {
       console.log(answers);
     });
   })
-  
-  // connection.query("", function(err,res) {
-
-  // });
   // MAKE SURE TO PUT THIS AT THE END
   connection.end();
+}
+
+function addMoreInventory() {
+  // UPDATE products SET
+        
+  // THIS THROWS AN ERROR
+  // connection.query("SELECT * FROM products", function(err, res) {
+  //   if (err) throw err;
+  //   console.log(this.res);
+  // });
 }
 // If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
