@@ -60,6 +60,7 @@ function afterConnection() {
       getWhatToAdd();
     } else if (answers.input === 'new') {
       console.log('new!');
+      addNewProduct();
     } else {
       console.log("IDK what you did but you did something wrong.");
     }
@@ -146,6 +147,48 @@ function addMoreInventory(id, amount) {
     console.log('Success!');
   });
   // MAKE SURE TO PUT THIS AT THE END
+  connection.end();
+}
+
+function addNewProduct() {
+  inquirer
+  .prompt([
+    {
+    "type": "input",
+    "name": "product_name",
+    "message": "What is the name of the product?",
+    },
+    {
+      "type": "input",
+      "name": "department_name",
+      "message": "What department should it be located within?",
+    },
+    {
+      "type": "input",
+      "name": "price",
+      "message": "What is the price of the product? (NO UNIT)",
+    },
+    {
+      "type": "input",
+      "name": "stock",
+      "message": "How many are you stocking?",
+    }
+  ])
+  .then(answers => {
+    console.log(answers);
+    let numberRegex = /[^0-9]/g;
+    let decimalRegex = /[^0-9.]/g;
+    let notAnInt = numberRegex.test(answers["stock"]);
+    let notADecimal = decimalRegex.test(answers["price"]);
+
+    if (notAnInt === true){
+      console.log('You suck! Type a integer for stock!');
+    } else if (notADecimal === true){
+      console.log("You suck! Type a number for price without a unit!");
+    } else {
+      console.log('something!');
+    }
+  })
   connection.end();
 }
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
