@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const Table = require("console.table");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -23,13 +24,22 @@ connection.connect(function(err) {
 
 function afterConnection() {
   connection.query("SELECT * FROM products", function(err, res) {
+    let printableData = res.map(x => {
+      return {
+        ID: x['item_id'],
+        Name: x['product_name'],
+        Price: x['price'].toFixed(2),
+        Stock: x['stock_quantity']
+      }
+    });
     if (err) throw err;
+    console.table(printableData);
     promptUserForPurchase(res);
   });
 }
 
 function promptUserForPurchase(res) {
-  let id = res.map(x => {
+  let choicesArray = res.map(x => {
     return {
       name: `${x["item_id"]}) ${x["product_name"]}`,
       value: x["item_id"]
@@ -40,7 +50,7 @@ function promptUserForPurchase(res) {
       "type": 'list',
       "name": "input",
       "message": "Select the item that you would like to purchase",
-      "choices": id
+      "choices": choicesArray
     },
     {
       "type": "input",
@@ -50,35 +60,34 @@ function promptUserForPurchase(res) {
   ])
   .then(answers => {
     let numberRegex = /[^0-9]/g;
-    let numberTest = numberRegex.test(answers["amount"]);
-    if (numberTest === true){
-      console.log('%cYou suck! Type a number!', 'color:red;');
+    let notAnInt = numberRegex.test(answers["amount"]);
+    if (notAnInt === true){
+      console.log('You suck! Type a integer!');
       connection.end();
-      return;
+    } else {
+      checkQuantity(answers["input"], answers["amount"]);
     }
-    console.log(answers);
-    checkQuantity(answers["input"], answers["amount"]);
-    return;
   });
 }
 
 function checkQuantity(id, amount) {
   connection.query(`SELECT * FROM products WHERE item_id = ${id}`, function(err, res) {
     if (err) throw err;
-    console.log(res);
-    console.log(amount);
     if (amount > res[0]["stock_quantity"]){
       console.log("Insufficient funds! Buy something else!");
     } else {
-      makePurchase(id, res[0]["stock_quantity"] - amount);
+      let total = amount * res[0]["price"]; 
+      makePurchase(id, res[0]["stock_quantity"] - amount, total);
     } 
   });
 }
 
-function makePurchase(id, newAmount) {
+function makePurchase(id, newAmount, total) {
   connection.query(`UPDATE products SET stock_quantity = ${newAmount} WHERE item_id = ${id} LIMIT 1`, function(err, res) {
     if (err) throw err;
+    // MAKE SURE TO TAKE THIS AFTER YOU ARE DONE TESTING
     console.log(res);
   });
+  console.log(`\nTotal: $${total.toFixed(2)}\n`)
   connection.end();
 }
