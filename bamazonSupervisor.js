@@ -89,14 +89,22 @@ function addDepartment() {
   ])
   .then(answers => {
     console.log(answers);
-    connection.query(
-      `INSERT INTO bamazon.departments (department_name, over_head_costs) VALUES (?, ?)`, 
-      [answers['dept_name'], parseInt(answers['overhead'])], 
-      function(err, res) {
-        if (err) throw err;
-        console.log(res);
-      }
-    );
-    connection.end();
+    let decimalRegex = /[^0-9.]/g;
+    let notADecimal = decimalRegex.test(answers["overhead"]);
+    if (notADecimal) {
+      console.log('You suck! Type a decimal number!');
+      connection.end();
+    } else {
+      connection.query(
+        `INSERT INTO bamazon.departments (department_name, over_head_costs) VALUES (?, ?)`, 
+        [answers['dept_name'], parseInt(answers['overhead'])], 
+        function(err, res) {
+          if (err) throw err;
+          // console.log(res);
+          console.log('Success!');
+        }
+      );
+      connection.end();
+    }
   })
 }
