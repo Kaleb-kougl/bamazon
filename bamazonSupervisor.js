@@ -30,14 +30,33 @@ function afterConnection() {
       'type': 'list', 
       'name': 'selection',
       'message': 'What would you like to do supervisor?',
-      'choices': ['View Product Sales by Department', 'Create New Department']
+      'choices': [{
+        name: 'View Product Sales by Department',
+        value: 'sales'
+      }, {
+        name: 'Create New Department',
+        value: 'add'
+      }]
     }
   ])
-  .then(answers => console.log(answers));
-
-  connection.end();
+  .then(answers => {
+    if (answers.selection === 'sales') {
+      viewSales();
+    } else if (answers.selection === 'add'){
+      console.log('not yet functional');
+      connection.end();
+    } else {
+      console.log('Something went wrong!');
+      connection.end();
+    }
+  });
 }
 
 function viewSales() {
-  
+  connection.query("SELECT department_name, SUM(product_sales) FROM bamazon.products GROUP BY department_name;", function(err, res) {
+    if (err) throw err;
+
+    console.log(res);
+  })
+  connection.end();
 }
