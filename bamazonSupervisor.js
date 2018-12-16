@@ -37,3 +37,7 @@ function afterConnection() {
 
   connection.end();
 }
+
+function viewSales() {
+  
+}
