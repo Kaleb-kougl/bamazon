@@ -53,10 +53,23 @@ function afterConnection() {
 }
 
 function viewSales() {
-  connection.query("SELECT department_name, SUM(product_sales) FROM bamazon.products GROUP BY department_name;", function(err, res) {
-    if (err) throw err;
-
-    console.log(res);
+  connection.query(
+   `CREATE TEMPORARY TABLE tempTable
+      SELECT department_name, SUM(product_sales) AS product_sales
+      FROM bamazon.products GROUP BY department_name;
+    SELECT * FROM departments NATURAL JOIN tempTable ORDER BY department_id ASC;`, 
+    function(err, res) {
+      if (err) throw err;
+      let printableData = res[1].map(x => {
+        return {
+          "Department Id": x["department_id"],
+          "Department Name": x["department_name"],
+          "Overhead costs": x["over_head_costs"],
+          "Product Sales": x["product_sales"],
+          "Total Profit": x["product_sales"] - x["over_head_costs"]
+        }
+    });
+    console.table(printableData);
   })
   connection.end();
 }
