@@ -20,6 +20,20 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
-  // afterConnection();
-  connection.end();
+  afterConnection();
 });
+
+function afterConnection() {
+  inquirer
+  .prompt([
+    {
+      'type': 'list', 
+      'name': 'selection',
+      'message': 'What would you like to do supervisor?',
+      'choices': ['View Product Sales by Department', 'Create New Department']
+    }
+  ])
+  .then(answers => console.log(answers));
+
+  connection.end();
+}
