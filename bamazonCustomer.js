@@ -13,7 +13,8 @@ var connection = mysql.createConnection({
 
   // Your password
   password: "root",
-  database: "bamazon"
+  database: "bamazon",
+  multipleStatements: true
 });
 
 connection.connect(function(err) {
@@ -83,11 +84,13 @@ function checkQuantity(id, amount) {
 }
 
 function makePurchase(id, newAmount, total) {
-  connection.query(`UPDATE products SET stock_quantity = ${newAmount} WHERE item_id = ${id} LIMIT 1`, function(err, res) {
-    if (err) throw err;
-    // MAKE SURE TO TAKE THIS AFTER YOU ARE DONE TESTING
-    console.log(res);
-  });
+  connection.query(`UPDATE products SET stock_quantity = ${newAmount} WHERE item_id = ${id} LIMIT 1;
+    UPDATE products SET product_sales = product_sales + ${total.toFixed(2)} WHERE item_id = ${id} LIMIT 1`, 
+    function(err, res) {
+      if (err) throw err;
+      // MAKE SURE TO TAKE THIS AFTER YOU ARE DONE TESTING
+      // console.log(res);
+    });
   console.log(`\nTotal: $${total.toFixed(2)}\n`)
   connection.end();
 }
