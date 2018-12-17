@@ -19,17 +19,22 @@ Bamzon is a command line tool built to give the ability to both users and custom
 
 
 ## Built With
-* [Inquirer] (https://www.npmjs.com/package/inquirer)
-* [mysql module] (https://www.npmjs.com/package/mysql)
-* [MySql] (https://www.mysql.com/)
-* [console.table] (https://www.npmjs.com/package/console.table)
+* [Inquirer](https://www.npmjs.com/package/inquirer)
+* [mysql module](https://www.npmjs.com/package/mysql)
+* [MySql](https://www.mysql.com/)
+* [console.table](https://www.npmjs.com/package/console.table)
 * JavaScript/Node
 
 ## Installation
 
-1. Clone the repository to your computer. 
-1. These need to be updated
-1. out of date!
+1. Clone the repository to your computer.
+1. Start up your MySql server. I use mamp and will demonstrate
+1. Run the schema and seed sql files on your MySql workbench (or use the CLI if you wish). 
+1. Once you have the database schema in place you will use the seed file to put data into the tables. Copy and paste the seed file into your MySql workbench and run the commands. 
+1. Now your database is set up and running. Next you need to make sure that your port, host, user, and password all say the correct information. (This info is located on the mamp pop-up window. 
+1. Run an npm install to get the neccessary node modules
+1. To launch the three different perspectives of the application type into your terminal node <FileName>
+1. Purchase something from the store!
 
 ## Issues Related To Project
 
