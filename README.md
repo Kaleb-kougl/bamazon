@@ -39,7 +39,15 @@ Bamzon is a command line tool built to give the ability to both users and custom
 1. Once you have the database schema in place you will use the seed file to put data into the tables. Copy and paste the seed file into your MySql workbench and run the commands. 
 1. Now your database is set up and running. Next you need to make sure that your port, host, user, and password all say the correct information. (This info is located on the mamp pop-up window. 
 1. Run an npm install to get the neccessary node modules
+     ```
+     npm install
+     ```
 1. To launch the three different perspectives of the application type into your terminal node <FileName>
+     ```
+     node bamazonSupervisor.js
+     node bamazonCustomer.js
+     node bamazonManager.js
+     ```
 1. Purchase something from the store!
 
 ## Issues Related To Project
