@@ -23,6 +23,8 @@ Bamzon is a command line tool built to give the ability to both users and custom
 * [mysql module](https://www.npmjs.com/package/mysql)
 * [MySql](https://www.mysql.com/)
 * [console.table](https://www.npmjs.com/package/console.table)
+* [MAMP](https://www.mamp.info/en/)
+* [MySql Workbench](https://www.mysql.com/products/workbench/)
 * JavaScript/Node
 
 ## Installation
