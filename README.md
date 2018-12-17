@@ -46,11 +46,24 @@ Bamzon is a command line tool built to give the ability to both users and custom
      ```
 1. To launch the three different perspectives of the application type into your terminal node <FileName>
      ```
-     node bamazonSupervisor.js
      node bamazonCustomer.js
+     ```
+    
+![customer](https://user-images.githubusercontent.com/33531057/50064857-064eaa00-0179-11e9-9c68-f7032fa86975.gif)
+
+     ```
      node bamazonManager.js
      ```
-1. Purchase something from the store!
+     
+![manager1](https://user-images.githubusercontent.com/33531057/50064865-11093f00-0179-11e9-89a1-4b0bec56d8f2.gif)
+
+    ```
+    node bamazonSupervisor.js
+    ```
+    
+![super](https://user-images.githubusercontent.com/33531057/50064873-1797b680-0179-11e9-84b7-1c38b722b4a4.gif)
+    
+
 
 ## Issues Related To Project
 
